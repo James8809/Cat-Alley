@@ -22,33 +22,38 @@ public class GameStateManager : MonoBehaviour
     private string scoreTextValue;
     private float time;
     public bool gameNotStart;
+    public bool isGameOver;
 
     private void Awake(){
         gameNotStart = true;
+        isGameOver = false;
         Cursor.visible = true;
     }
 
     private void Start() {
         FindObjectOfType<resetTracker>().Spawn();
         player.GetComponent<PlayerController>().enabled = false;
+        scoreTextValue = "Score: " + score;
+        scoreText.text = scoreTextValue;
     }
     void Update()
     {
-        if(lives <= 0){
+        if(lives <= 0 && !isGameOver){
             gameOver();
-        } 
-        scoreTextValue = "Score: " + score;
-        scoreText.text = scoreTextValue;
+        } else {
+            this.addSpeed();
+        }
 
-        this.checkHeart();
-        this.addSpeed();
     }
     public void addScore(){
         score += points;
+        scoreTextValue = "Score: " + score;
+        scoreText.text = scoreTextValue;
     }
 
     public void minusLive(){
         lives--;
+        this.checkHeart();
     }
 
     public void addSpeed(){
@@ -88,9 +93,10 @@ public class GameStateManager : MonoBehaviour
     }
 
     public void gameOver(){
+        isGameOver = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         player.GetComponent<PlayerController>().enabled = false;
-        
+        canvas.GetComponent<MenuScript>().OnGameOver();
     }
 }

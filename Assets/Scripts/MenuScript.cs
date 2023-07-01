@@ -31,7 +31,7 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameState.gameNotStart)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameState.gameNotStart && !gameState.isGameOver)
         {
             ToggleMenu();
         }
@@ -39,6 +39,9 @@ public class MenuScript : MonoBehaviour
 
     public void ToggleMenu()
     {
+        if(instructionsOpened){
+            ControlsOnClick();
+        }
         if (isPaused == false)
         {
             player.GetComponent<PlayerController>().enabled = false;
@@ -46,6 +49,7 @@ public class MenuScript : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             isPaused = true;
+            if(gameState.isGameOver) restartButton.SetActive(true);
         } else {
             player.GetComponent<PlayerController>().enabled = true;
             menu.SetActive(false);
@@ -67,7 +71,7 @@ public class MenuScript : MonoBehaviour
             returnButton.SetActive(true);
             instructionsOpened = true;
         } else {
-            if(!isPaused) restartButton.SetActive(true);
+            if(gameState.isGameOver) restartButton.SetActive(true);
             if(FindObjectOfType<GameStateManager>().gameNotStart) playButton.SetActive(true);
             controlButton.SetActive(true);
             exitButton.SetActive(true);
@@ -81,7 +85,10 @@ public class MenuScript : MonoBehaviour
         playButton.SetActive(false);
         ToggleMenu();
         gameState.startGame();
+    }
 
+    public void OnGameOver(){
+        ToggleMenu();
     }
 
     public void RestartGame(){
