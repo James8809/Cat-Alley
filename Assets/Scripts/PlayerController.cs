@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour
     private static float globalGravity = -9.81f;
 
     private void Awake() {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
         GetComponent<Rigidbody>().useGravity = false;
         _groundHeight = this.transform.position.y;
     }

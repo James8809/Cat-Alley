@@ -11,7 +11,6 @@ public class GameStateManager : MonoBehaviour
     public Text scoreText;
     public int points;
     public GameObject player;
-    public GameObject gameOverMenu;
     public GameObject canvas;
     public Image heart1;
     public Image heart2;
@@ -22,10 +21,16 @@ public class GameStateManager : MonoBehaviour
     public float speedAdd;
     private string scoreTextValue;
     private float time;
+    public bool gameNotStart;
+
+    private void Awake(){
+        gameNotStart = true;
+        Cursor.visible = true;
+    }
 
     private void Start() {
         FindObjectOfType<resetTracker>().Spawn();
-        player.GetComponent<PlayerController>().enabled = true;
+        player.GetComponent<PlayerController>().enabled = false;
     }
     void Update()
     {
@@ -75,11 +80,17 @@ public class GameStateManager : MonoBehaviour
     public void restart(){
         SceneManager.LoadScene("prototype");
     }
+    public void startGame(){
+        Cursor.visible = false;
+        gameNotStart = false;
+        
+        player.GetComponent<PlayerController>().enabled = true;
+    }
 
     public void gameOver(){
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         player.GetComponent<PlayerController>().enabled = false;
-        gameOverMenu.SetActive(true);
+        
     }
 }
