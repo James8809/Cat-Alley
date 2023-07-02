@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class AlleyMovement : MonoBehaviour
 {
-    private float alleySpeed;
     private GameObject _player;
-    public Transform SpawnMarker;
     public Transform End;
     public Transform WaitingZone;
     public Transform StartWatingZone;

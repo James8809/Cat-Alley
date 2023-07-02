@@ -6,17 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     public float turnSpeed = 1.0f;
     private float JumpForce;
-    public float moveSpeed = 2.0f;
     public float minTurnAngle = -30.0f;
-    public float JumpTime = 1f;
     public float maxTurnAngle = 30.0f;
-    public Collider playerCollider;
     public GameStateManager state;
     private float rotX;
     private float rotY;
     private float jumpTimer;
     private float _groundHeight;
     private bool isGrounded;
+    private bool inAHazard = false;
 
     // Gravity Scale editable on the inspector
     // providing a gravity scale per object
@@ -44,13 +42,10 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y <= _groundHeight) isGrounded = true;
         else isGrounded = false;
     }
-    private void FixedUpdate() {
-        Vector3 gravity = globalGravity * GravityScale * Vector3.up;
-        //GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
-    }
     private void Move(){
-        //GetComponent<Rigidbody>().velocity = new Vector3 (0.0f, GetComponent<Rigidbody>().velocity.y, -FindObjectOfType<GameStateManager>().AlleySpeed);
         transform.position -= new Vector3 (0.0f, 0.0f, FindObjectOfType<GameStateManager>().AlleySpeed)* Time.deltaTime;
+        //GetComponent<Rigidbody>().MovePosition(transform.position - new Vector3 (0.0f, 0.0f, FindObjectOfType<GameStateManager>().AlleySpeed)* Time.deltaTime);
+        
     }
     private void Aim(){
         rotY += Input.GetAxis("Mouse X") * turnSpeed;
@@ -82,9 +77,20 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "hazard")
+        if (collider.gameObject.tag == "hazard" && !inAHazard)
         {
+            inAHazard = true;
+            SoundManager.Instance.PlaySound(SoundManager.Instance.onHit, Camera.main.transform.position);
             state.minusLive();
+            Debug.Log("i hit hazard, minus one live " + collider);
         }
     }
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.tag == "hazard")
+        {
+            inAHazard = false;
+        }
+    }
+
 }
