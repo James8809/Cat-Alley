@@ -19,6 +19,7 @@ public class CatScript : MonoBehaviour
     {
         // Debug.Log(catTransform.position);
         if(catTransform.position.z >= playerTransform.position.z){
+            SoundManager.Instance.PlaySound(SoundManager.Instance.catScream, Camera.main.transform.position);
             state.minusLive();
             this.enabled = false;
         }
