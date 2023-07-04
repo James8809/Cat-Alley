@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
                     state.addScore();
                 } else {
                     SoundManager.Instance.PlaySound(SoundManager.Instance.missShot, Camera.main.transform.position);
+                    state.minusLive();
                 }
             }
         }
