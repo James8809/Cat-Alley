@@ -60,9 +60,19 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, rayLength))
         {
-            if(Input.GetKeyDown(KeyCode.Mouse0) && hit.transform.gameObject.CompareTag("cat")) {
-                hit.transform.gameObject.SetActive(false);
-                state.addScore();
+            // if(Input.GetKeyDown(KeyCode.Mouse0) && hit.transform.gameObject.CompareTag("cat")) {
+            //     hit.transform.gameObject.SetActive(false);
+            //     SoundManager.Instance.PlaySound(SoundManager.Instance.catMeow, Camera.main.transform.position);
+            //     state.addScore();
+            // }
+            if(Input.GetKeyDown(KeyCode.Mouse0)){
+                if(hit.transform.gameObject.CompareTag("cat")) {
+                    hit.transform.gameObject.SetActive(false);
+                    //SoundManager.Instance.PlaySoundSpawn(SoundManager.Instance.catMeowAudioSourcePrefab, Camera.main.transform.position);
+                    state.addScore();
+                } else {
+                    SoundManager.Instance.PlaySound(SoundManager.Instance.missShot, Camera.main.transform.position);
+                }
             }
         }
     }
@@ -72,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKey(KeyCode.Space) && isGrounded){
             JumpForce = 8f;
+            SoundManager.Instance.PlaySound(SoundManager.Instance.jump, Camera.main.transform.position);
         }
         transform.Translate(new Vector3(0, JumpForce, 0) * Time.deltaTime);
     }
@@ -80,6 +91,7 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.tag == "hazard" && !inAHazard)
         {
             inAHazard = true;
+            SoundManager.Instance.PlaySound(SoundManager.Instance.hitBeam, Camera.main.transform.position);
             SoundManager.Instance.PlaySound(SoundManager.Instance.onHit, Camera.main.transform.position);
             state.minusLive();
             Debug.Log("i hit hazard, minus one live " + collider);

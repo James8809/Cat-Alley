@@ -49,6 +49,7 @@ public class GameStateManager : MonoBehaviour
         score += points;
         scoreTextValue = "Score: " + score;
         scoreText.text = scoreTextValue;
+        SoundManager.Instance.PlaySoundSpawn(SoundManager.Instance.scoreAudioSourcePrefab, Camera.main.transform.position);
     }
 
     public void minusLive(){
