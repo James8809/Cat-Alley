@@ -21,6 +21,7 @@ public class CatScript : MonoBehaviour
         if(catTransform.position.z >= playerTransform.position.z){
             SoundManager.Instance.PlaySound(SoundManager.Instance.catScream, Camera.main.transform.position);
             SoundManager.Instance.PlaySound(SoundManager.Instance.onHit, Camera.main.transform.position);
+            PlayerHurtUI.Instance.OnPlayerGotCatScratched();
             state.minusLive();
             this.enabled = false;
         }

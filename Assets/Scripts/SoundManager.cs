@@ -9,14 +9,13 @@ public class SoundManager : MonoBehaviour{
 
     public static SoundManager Instance {get; private set; }
 
-    public AudioClip catScream;
-    public AudioClip missShot;
-    public AudioClip hitBeam;
-    public AudioClip coughtCat;
-    public AudioClip jump;
-    public AudioClip onDeath;
-    public AudioClip onHit;
-    public AudioSource audioSource;
+    public AudioSource catScream;
+    public AudioSource missShot;
+    public AudioSource hitBeam;
+    public AudioSource coughtCat;
+    public AudioSource jump;
+    public AudioSource onDeath;
+    public AudioSource onHit;
 
 
     //[SerializeField] private AudioClipRefsSO audioClipRefsSO;
@@ -72,9 +71,8 @@ public class SoundManager : MonoBehaviour{
     //     Debug.Log("the warning sound:" + audioClipArray[Random.Range(0, audioClipArray.Length)]);
     // }
 
-    public void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f){
+    public void PlaySound(AudioSource audioSource, Vector3 position, float volumeMultiplier = 1f){
         //AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * volume);
-        audioSource.clip = audioClip;
         audioSource.Play();
     }
 
